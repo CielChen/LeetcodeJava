@@ -1,12 +1,8 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-    	/* 
-    	 * 参考：https://tonghuashuo.github.io/blog/leetcode-01-two-sum.html
-    	 * https://blog.csdn.net/liuzhixiong_521/article/details/79921661
-    	 */
-    	
-    	
         /* 
+         * 参考：https://tonghuashuo.github.io/blog/leetcode-01-two-sum.html
+    	 * https://blog.csdn.net/liuzhixiong_521/article/details/79921661
          * 方案1：首先对数组排序，然后设定两个指针i和j，i指向数组的开始位置，j指向数组 的结束位置，临时变量sum=i+j，sum小于target时i++，sum大于target时j--，sum等于
         target时结束，返回结果。因为还需要返回原始数组的下标，所以要先复制一个出来，单独进行排序，找到匹配的元素后，再看这两个元素在原始数组中的位置。
                             时间复杂度o(nlogn)，空间复杂度o(1)
@@ -51,5 +47,28 @@ class Solution {
         Arrays.sort(res);
         
         return res;
+        
+        /*
+         * 参考：https://blog.csdn.net/C_calary/article/details/75052639
+         * 方案2：hash法。利用HashMap的存取特性，以空间换时间。以数组下表作为key，数组值作为value，
+                                                      依次将nums数组存入map，同时判断target-nums[i]是否也存在于map，存在则退出，返回结果。
+                                                      时间复杂度o(n)，空间复杂度o(n)。*/
+        
+        int[] a = new int[2];
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+        for (int i = 0; i < nums.length; i++){
+            // 如果map中有nums[i]
+            if (map.containsKey(nums[i])){ // containsKey(Object Key)是否包含某个元素
+                a[0] = map.get(nums[i]);  // get(Object key获取给定key对应的value
+                a[1] = i;
+                return a;
+            }
+            //如果map中没有nums[i]
+            map.put(target-nums[i], i);  // 向map中插入(key, value)
+        }
+
+        return a;
+
     }
 }
